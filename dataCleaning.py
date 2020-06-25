@@ -17,3 +17,9 @@ def common():
 
 if __name__ == '__main__':
     common() 
+
+# Todo:
+# Add date as the row index
+# Continue into https://medium.com/dunder-data/create-a-bar-chart-race-animation-in-python-with-matplotlib-477ed1590096
+# Flag for fetching data dynamically
+# Generate date dynamically
