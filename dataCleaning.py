@@ -1,22 +1,46 @@
 import pandas as pd
+from datetime import datetime
+from datetime import date
+from constants import *
+
+def getDates():
+    times = pd.date_range(FIRST_DATE, periods=DAYS, freq='D')
+    return times
+
+def getStates():
+    df = pd.read_csv(PATHS[0])
+    return df[['Province_State']]
 
 def getConfirmedCases(path):
     df = pd.read_csv(path)
-    return df[['Province_State', 'Confirmed']]
+    return df[['Confirmed']]
 
-def common():
-    paths = ['data/06-21-2020.csv', 'data/06-22-2020.csv', 'data/06-23-2020.csv']
+def getRowIndices():
+    # datetime_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
+    rename_dict = {}
+    # Create dictionary for renaming row indices
+    for i in range(len(PATHS)):
+        path = PATHS[i]
+        date_string = path[5:15]
+        datetime_obj = datetime.strptime(date_string, '%m-%d-%Y')
+        rename_dict[i] = datetime_obj
+    return rename_dict
+
+def getDataFrame():
     frame = pd.DataFrame()
+    states = getStates()
 
-    for path in paths:
+    for path in PATHS:
         cases = getConfirmedCases(path)
         frame = frame.append(cases.T, ignore_index=True)
 
-    print(frame)
+    frame.columns = states
+    frame.rename(index=getRowIndices(), inplace=True)
+    return frame
         
-
 if __name__ == '__main__':
-    common() 
+    newFrame = getDataFrame() 
+    print(newFrame.tail())
 
 # Todo:
 # Add date as the row index
