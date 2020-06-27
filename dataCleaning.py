@@ -9,7 +9,8 @@ def getDates():
 
 def getStates():
     df = pd.read_csv(PATHS[0])
-    return df[['Province_State']]
+    states_list = df['Province_State'].values.tolist()
+    return states_list
 
 def getConfirmedCases(path):
     df = pd.read_csv(path)
@@ -26,21 +27,20 @@ def getRowIndices():
         rename_dict[i] = datetime_obj
     return rename_dict
 
-def getDataFrame():
+def getDataFrame(paths):
     frame = pd.DataFrame()
     states = getStates()
 
-    for path in PATHS:
+    for path in paths:
         cases = getConfirmedCases(path)
         frame = frame.append(cases.T, ignore_index=True)
 
     frame.columns = states
     frame.rename(index=getRowIndices(), inplace=True)
     return frame
-        
+    
 if __name__ == '__main__':
-    newFrame = getDataFrame() 
-    print(newFrame.tail())
+    print(getDataFrame(PATHS))
 
 # Todo:
 # Add date as the row index

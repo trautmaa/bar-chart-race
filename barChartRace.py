@@ -1,8 +1,23 @@
-import pandas as pd
-import csv
-from urllib.request import urlopen
+import matplotlib.pyplot as plt
 
-url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports_us/06-19-2020.csv'
+from dataCleaning import *
+from constants import *
 
-df = pd.read_csv(url, error_bad_lines=False)
-print(df)
+rawdf = getDataFrame(PATHS)
+s = rawdf.loc['2020-06-21']
+print(s)
+
+fig, ax = plt.subplots(figsize=(4, 2.5), dpi=144)
+colors = plt.cm.Dark2(range(6))
+
+print('index', s.index)
+y = s.index
+print('VALUES', s.values)
+width = s.values
+
+print('y', y)
+print('width', width)
+
+ax.barh(y=y, width=width, color=colors)
+
+plt.show() 
