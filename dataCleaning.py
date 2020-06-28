@@ -17,7 +17,6 @@ def getConfirmedCases(path):
     return df[['Confirmed']]
 
 def getRowIndices():
-    # datetime_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
     rename_dict = {}
     # Create dictionary for renaming row indices
     for i in range(len(PATHS)):
