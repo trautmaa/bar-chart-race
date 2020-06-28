@@ -9,26 +9,14 @@ s = dataframe.loc['2020-06-21']
 
 dataframe.index = pd.to_datetime(dataframe.index)
 
-#################################
-# Smoothly transition by interpolating data
-#################################
-
 # Create dataframe with all the data
 df2 = dataframe.loc[DATES[0]:DATES[-1]]
 
+# Create expanded dataframes with interpolated data for
+# animating the transitions
 df_expanded, df_rank_expanded = prepare_data(df2)
 
-# Create single chart
-# fig, ax = plt.subplots(figsize=(4, 2.5), dpi=144)
 colors = plt.cm.Dark2(range(50))
-
-# Get data for chart
-states_array = s.index
-number_of_cases = s.values
-
-# Add data to chart
-# ax.barh(y=states_array, width=number_of_cases, color=colors)
-# beautify_axes(ax)
 
 # Plot each step of the transition
 fig, ax_array = plt.subplots(nrows=1, ncols=6, figsize=(12,2), dpi=144, tight_layout=True)
@@ -41,15 +29,6 @@ for i, ax in enumerate(ax_array.flatten()):
 
 ax_array[0].set_title('one')
 ax_array[-1].set_title('two')
-
-# Create three charts
-# fig, ax_array = plt.subplots(nrows=1, ncols=3, figsize=(7, 2.5), dpi=144, tight_layout=True)
-# for ax, date in zip(ax_array, DATES):
-#     ranked_states = dataframe.loc[date]
-#     y = dataframe.loc[date].rank(method='first').values
-#     ax.barh(y=y, width=ranked_states.values, color=colors, tick_label=ranked_states.index)
-#     ax.set_title(date, fontsize='smaller')
-#     beautify_axes(ax)
 
 # Render chart
 plt.show() 

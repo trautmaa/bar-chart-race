@@ -27,6 +27,6 @@ def prepare_data(df, steps=5):
     df_expanded = df_expanded.interpolate()
 
     # Interpolate rankings
-    df_rank_expanded = df_rank_expanded.interpolate(method ='linear', limit_direction ='forward')
+    df_rank_expanded = df_rank_expanded.interpolate()
 
     return df_expanded, df_rank_expanded
