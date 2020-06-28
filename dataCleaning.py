@@ -39,6 +39,13 @@ def getDataFrame(paths):
     frame.rename(index=getRowIndices(), inplace=True)
     return frame
     
+def beautify_axes(ax):
+    ax.set_facecolor('.8')
+    ax.tick_params(labelsize=8, length=0)
+    ax.grid(True, axis='x', color='white')
+    ax.set_axisbelow(True)
+    [spine.set_visible(False) for spine in ax.spines.values()]  
+
 if __name__ == '__main__':
     print(getDataFrame(PATHS))
 
