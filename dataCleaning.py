@@ -3,12 +3,22 @@ from datetime import datetime
 from datetime import date
 from constants import *
 
+def getPaths():
+    dates = getDates()
+    print(dates)
+    paths = ['data/' + date + '.csv' for date in dates]
+    return paths
+
 def getDates():
-    times = pd.date_range(FIRST_DATE, periods=DAYS, freq='D')
-    return times
+    d0 = datetime.strptime(FIRST_DATE, '%Y-%m-%d').date()
+    d1 = datetime.now().date()
+    delta = d1 - d0
+    days = delta.days
+    times = pd.date_range(FIRST_DATE, periods=days, freq='D')
+    return times.strftime('%m-%d-%Y')
 
 def getStates():
-    df = pd.read_csv(PATHS[0])
+    df = pd.read_csv('data/04-13-2020.csv')
     states_list = df['Province_State'].values.tolist()
     return states_list
 
@@ -19,8 +29,8 @@ def getConfirmedCases(path):
 def getRowIndices():
     rename_dict = {}
     # Create dictionary for renaming row indices
-    for i in range(len(PATHS)):
-        path = PATHS[i]
+    for i in range(len(getPaths())):
+        path = getPaths()[i]
         date_string = path[5:15]
         datetime_obj = datetime.strptime(date_string, '%m-%d-%Y')
         rename_dict[i] = datetime_obj
@@ -46,7 +56,7 @@ def beautify_axes(ax):
     [spine.set_visible(False) for spine in ax.spines.values()]  
 
 if __name__ == '__main__':
-    print(getDataFrame(PATHS))
+    print(getPaths())
 
 # Todo:
 # Add date as the row index
